@@ -26,7 +26,7 @@ massive(CONNECTION_STRING).then(db => {
 })
 
 // Student can create Node servers using the Express package (Serving static files)
-// app.use(express.static(__dirname + './../build'))
+app.use(express.static(__dirname + './../build'))
 
 app.use(session({
     secret: SESSION_SECRET,
@@ -68,18 +68,12 @@ passport.serializeUser( (id, done) => {
 })
 
 passport.deserializeUser( (id, done) => {
-    // retrieve info from session store
-    // adds info to req.user
-    // fires like componentdidmount
+
     app.get('db').find_session_user([id]).then( user => {
         done(null, user[0]);
     })
 })
 
-//Write a POST endpoint in your server for registering.
-    // pull username and password off body
-    // create new user in db
-    // res new user
 
 app.get('/auth', passport.authenticate('auth0'))
 app.get('/auth/callback', passport.authenticate('auth0', {
@@ -96,12 +90,6 @@ app.get('auth/me', function(req, res) {
         res.status(401).send('nope');
     }
 })
-
-
-//Post endpoint  for logging in
-    // pull username/password off body
-    //pull user with matching username/password from db
-    // res user
 
 
 
